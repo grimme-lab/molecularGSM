@@ -43,11 +43,11 @@ packages:
   build: hbf21a9e_0
   subdir: linux-64
   depends:
+  - libstdcxx *
   - libstdcxx >=15
   - libgcc >=15
-  - libstdcxx
   input:
-    hash: 481f3cc0b491739c5311082d07bf92a86c67c6d52e699172dacd46fcdd7da55f
+    hash: a9d4fedc493d6105d12bc91ff0d16f1a1746262fa556b8075fc3a9b610bf7414
     globs: []
 - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-75.1-he02047a_0.conda
   sha256: 71e750d509f5fa3421087ba88ef9a7b9be11c53174af3aa4d06aff4c18b38e8e

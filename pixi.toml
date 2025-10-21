@@ -9,12 +9,10 @@ preview = ["pixi-build"]
 name = "gsm"
 version = "0.1.0"
 
-[package.build]
-backend = { name = "pixi-build-cmake", version = "==0.1.11" }
-channels = [
-  "https://prefix.dev/pixi-build-backends",
-  "https://prefix.dev/conda-forge",
-]
+[package.build.backend]
+name = "pixi-build-cmake"
+version = "==0.3.3"
+channels = ["https://prefix.dev/conda-forge"]
 
 [tasks]
 # gsm <N> -> initial000N.xyz
