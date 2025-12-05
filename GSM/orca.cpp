@@ -139,11 +139,11 @@ double ORCA::get_energy_grad(string file, double* grad, int natoms)
   while (!gradfile.eof() && done<2)
   {
     success=(bool)getline(gradfile, line);
-    if (line.find("Total Energy")!=string::npos)
+    if (line.find("FINAL SINGLE POINT ENERGY")!=string::npos)
     {
       //cout << " RRe: " << line << endl; fflush(stdout);
       tok_line = StringTools::tokenize(line, " \t");
-      V = atof(tok_line[3].c_str());
+      V = atof(tok_line[4].c_str());
       done++;
     }
     if (line.find("CARTESIAN GRADIENT")!=string::npos)
