@@ -17,7 +17,7 @@ https://github.com/grimme-lab/xtb_docs/blob/master/source/gsm.rst
 
 ### Using Pixi (Recommended)
 
-The easiest way to build and use GSM is with [Pixi](https://pixi.sh/), which handles all dependencies automatically:
+The easiest way to build and use GSM is with [Pixi](https://pixi.sh/), which handles core dependencies automatically:
 
 1. [Install Pixi](https://pixi.sh/latest/#installation) if you haven't already
 2. Clone this repository:
