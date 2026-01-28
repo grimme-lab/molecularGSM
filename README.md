@@ -14,7 +14,35 @@ Running GSM with the XTB package (from the Grimme lab):
 https://github.com/grimme-lab/xtb_docs/blob/master/source/gsm.rst
 
 ## Installation
-This code can be built using CMake. To do so:
+
+### Using Pixi (Recommended)
+
+The easiest way to build and use GSM is with [Pixi](https://pixi.sh/), which handles core dependencies automatically:
+
+1. [Install Pixi](https://pixi.sh/latest/#installation) if you haven't already
+2. Clone this repository:
+```bash
+git clone https://github.com/ZimmermanGroup/molecularGSM.git
+cd molecularGSM
+```
+3. Build and install GSM:
+```bash
+pixi install
+```
+
+This will build GSM with MOPAC support and make the `gsm` executable available in the pixi environment. To run GSM:
+```bash
+pixi run gsm <input_number>
+```
+
+To run the included test:
+```bash
+pixi run test
+```
+
+### Using CMake (Manual Build)
+
+Alternatively, this code can be built using CMake directly. To do so:
 
 1. Load/install CMake
 2. Load MKL (On Athena use `intel/oneapi/mkl/2021.1.1` and GCC, e.g. `gcc/12.1.0`)
