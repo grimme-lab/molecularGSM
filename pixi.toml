@@ -2,7 +2,7 @@
 authors = ["Zimmerman Group, Andreas Copan (pixi environment)"]
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64"]
-requires-pixi = ">=0.50.2"
+requires-pixi = ">=0.60.0"
 preview = ["pixi-build"]
 
 [package]
