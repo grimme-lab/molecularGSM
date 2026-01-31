@@ -33,3 +33,9 @@ openblas = "*"
 [dependencies]
 mopac = "*"
 gsm = {path = "."}
+
+[target.linux-64.dependencies]
+mkl = "*"
+
+[target.osx-arm64.dependencies]
+libopenblas = "*"
