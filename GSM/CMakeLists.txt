@@ -75,7 +75,11 @@ message("${BLAS_LIBRARIES} ${BLAS_LINKER_FLAGS}")
 
 find_package(BLAS REQUIRED)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS}")
-target_include_directories(gsm PUBLIC "$ENV{MKLROOT}/include")
+
+# MKL include path (Linux only)
+if(DEFINED ENV{MKLROOT})
+    target_include_directories(gsm PUBLIC "$ENV{MKLROOT}/include")
+endif()
 
 FIND_PACKAGE( OpenMP REQUIRED)
 if(OPENMP_FOUND)

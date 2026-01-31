@@ -3,7 +3,7 @@
 #include "omp.h"
 //#include <Accelerate/Accelerate.h>
 //#include <vecLib/clapack.h>
-#include <mkl.h>
+#include "blas_compat.h"
 //#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl.h"
 //#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl_lapack.h"
 //#include "/opt/acml5.3.1/gfortran64/include/acml.h"

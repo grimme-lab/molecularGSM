@@ -1,7 +1,7 @@
 [workspace]
 authors = ["Zimmerman Group, Andreas Copan (pixi environment)"]
 channels = ["conda-forge"]
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-arm64"]
 requires-pixi = ">=0.50.2"
 preview = ["pixi-build"]
 
@@ -22,11 +22,15 @@ test = { cmd = "gsm 1", cwd = "TEST/dielsAlder/mopac/de-gsm" }
 cmake = "*"
 
 [package.host-dependencies]
+
+[package.target.linux-64.host-dependencies]
 libstdcxx-ng = "*"
 mkl = "*"
 mkl-include = "*"
 
+[package.target.osx-arm64.host-dependencies]
+openblas = "*"
+
 [dependencies]
-mkl = "*"
 mopac = "*"
 gsm = {path = "."}
