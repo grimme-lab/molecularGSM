@@ -2,7 +2,9 @@ name: CI
 
 on:
   push:
+    branches: [master]
   pull_request:
+    branches: [master]
   schedule:
     # Run monthly on the 1st at midnight UTC to test with latest pixi
     - cron: '0 0 1 * *'
@@ -38,9 +40,6 @@ jobs:
           log-level: v
           cache: true
 
-      - name: Build with Pixi
-        run: pixi -v install
-
       - name: Run test
         run: pixi run test
 
@@ -72,9 +71,6 @@ jobs:
         with:
           log-level: v
           cache: true
-
-      - name: Build with Pixi
-        run: pixi -v install
 
       - name: Run test with timeout (30s smoke test)
         run: |
