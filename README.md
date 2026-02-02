@@ -17,27 +17,58 @@ https://github.com/grimme-lab/xtb_docs/blob/master/source/gsm.rst
 
 ### Using Pixi (Recommended)
 
-The easiest way to build and use GSM is with [Pixi](https://pixi.sh/), which handles core dependencies automatically:
+The easiest way to install GSM is with [Pixi](https://pixi.sh/), which handles all dependencies automatically.
 
 1. [Install Pixi](https://pixi.sh/latest/#installation) if you haven't already
-2. Clone this repository:
+2. Install GSM globally:
+```bash
+pixi global install \
+    --git https://github.com/ZimmermanGroup/molecularGSM.git \
+    --branch 47-qchem-pixi-backend
+```
+
+This builds GSM with MOPAC support (default) and makes `gsm` available in your PATH.
+
+#### Building with Different Backends
+
+To build with a different energy calculator backend, set the appropriate environment variable:
+
+| Backend | Command |
+|---------|---------|
+| Q-Chem | `GSM_ENABLE_QCHEM=1 pixi global install --git ... --branch ...` |
+| Q-Chem SF | `GSM_ENABLE_QCHEM_SF=1 pixi global install --git ... --branch ...` |
+| ORCA | `GSM_ENABLE_ORCA=1 pixi global install --git ... --branch ...` |
+| Gaussian | `GSM_ENABLE_GAUSSIAN=1 pixi global install --git ... --branch ...` |
+| Molpro | `GSM_ENABLE_MOLPRO=1 pixi global install --git ... --branch ...` |
+| ASE | `GSM_ENABLE_ASE=1 pixi global install --git ... --branch ...` |
+| Turbomole | `GSM_ENABLE_TURBOMOLE=1 pixi global install --git ... --branch ...` |
+
+For example, to install with Q-Chem:
+```bash
+GSM_ENABLE_QCHEM=1 pixi global install \
+    --git https://github.com/ZimmermanGroup/molecularGSM.git \
+    --branch 47-qchem-pixi-backend
+```
+
+#### Development Setup
+
+For development or to install from a local clone:
+
 ```bash
 git clone https://github.com/ZimmermanGroup/molecularGSM.git
 cd molecularGSM
-```
-3. Build and install GSM:
-```bash
 pixi install
 ```
 
-This will build GSM with MOPAC support and make the `gsm` executable available in the pixi environment. To run GSM:
+This makes the `gsm` executable available in the pixi environment:
 ```bash
 pixi run gsm <input_number>
+pixi run test  # run included test
 ```
 
-To run the included test:
+You can also install globally from the local path:
 ```bash
-pixi run test
+pixi global install --path .
 ```
 
 ### Using CMake (Manual Build)
