@@ -10,8 +10,18 @@ on:
     - cron: '0 0 1 * *'
 
 jobs:
-  build-linux:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-64
+            smoke-test: false
+          - os: macos-latest
+            platform: osx-arm64
+            smoke-test: true
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout repository
@@ -40,50 +50,23 @@ jobs:
           log-level: v
           cache: true
 
-      - name: Run test
+      - name: Run test (full)
+        if: ${{ !matrix.smoke-test }}
         run: pixi run test
 
-  build-macos:
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Extract minimum pixi version from pixi.toml
-        id: pixi-version
-        run: |
-          VERSION=$(grep 'requires-pixi' pixi.toml | sed 's/.*>=\([0-9.]*\).*/\1/')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Using minimum pixi version: $VERSION"
-
-      - name: Set up Pixi (minimum version)
-        if: github.event_name != 'schedule'
-        uses: prefix-dev/setup-pixi@v0.9.1
-        with:
-          pixi-version: v${{ steps.pixi-version.outputs.version }}
-          log-level: v
-          cache: true
-
-      - name: Set up Pixi (latest version for scheduled builds)
-        if: github.event_name == 'schedule'
-        uses: prefix-dev/setup-pixi@v0.9.1
-        with:
-          log-level: v
-          cache: true
-
-      - name: Run test with timeout (30s smoke test)
+      - name: Run test (2min timeout)
+        if: ${{ matrix.smoke-test }}
         run: |
           # Start the test in the background
           pixi run test &
           TEST_PID=$!
 
-          # Wait for 30 seconds
-          sleep 30
+          # Wait for 2 minutes
+          sleep 120
 
-          # Check if the process is still running (which means it's working fine)
+          # Check if the process is still running
           if kill -0 $TEST_PID 2>/dev/null; then
-            echo "Test still running after 30s - smoke test passed!"
+            echo "Test still running after 2 minutes - stopping"
             kill $TEST_PID 2>/dev/null || true
             exit 0
           else
@@ -91,7 +74,7 @@ jobs:
             wait $TEST_PID
             EXIT_CODE=$?
             if [ $EXIT_CODE -eq 0 ]; then
-              echo "Test completed successfully within 30s"
+              echo "Test completed successfully within 2 minutes"
               exit 0
             else
               echo "Test failed with exit code $EXIT_CODE"
