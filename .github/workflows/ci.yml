@@ -16,10 +16,8 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-64
-            smoke-test: false
           - os: macos-latest
             platform: osx-arm64
-            smoke-test: true
 
     runs-on: ${{ matrix.os }}
 
@@ -50,34 +48,5 @@ jobs:
           log-level: v
           cache: true
 
-      - name: Run test (full)
-        if: ${{ !matrix.smoke-test }}
+      - name: Run test
         run: pixi run test
-
-      - name: Run test (2min timeout)
-        if: ${{ matrix.smoke-test }}
-        run: |
-          # Start the test in the background
-          pixi run test &
-          TEST_PID=$!
-
-          # Wait for 2 minutes
-          sleep 120
-
-          # Check if the process is still running
-          if kill -0 $TEST_PID 2>/dev/null; then
-            echo "Test still running after 2 minutes - stopping"
-            kill $TEST_PID 2>/dev/null || true
-            exit 0
-          else
-            # Process finished - check if it succeeded or failed
-            wait $TEST_PID
-            EXIT_CODE=$?
-            if [ $EXIT_CODE -eq 0 ]; then
-              echo "Test completed successfully within 2 minutes"
-              exit 0
-            else
-              echo "Test failed with exit code $EXIT_CODE"
-              exit $EXIT_CODE
-            fi
-          fi
