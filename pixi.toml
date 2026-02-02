@@ -27,15 +27,15 @@ libstdcxx-ng = "*"
 mkl = "*"
 mkl-include = "*"
 
+[package.target.linux-64.run-dependencies]
+mkl = "*"
+
 [package.target.osx-arm64.host-dependencies]
 openblas = "*"
+
+[package.target.osx-arm64.run-dependencies]
+libopenblas = "*"
 
 [dependencies]
 mopac = "*"
 gsm = {path = "."}
-
-[target.linux-64.dependencies]
-mkl = "*"
-
-[target.osx-arm64.dependencies]
-libopenblas = "*"
