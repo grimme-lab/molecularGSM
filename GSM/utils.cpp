@@ -4,16 +4,6 @@
 //#include <Accelerate/Accelerate.h>
 //#include <vecLib/clapack.h>
 #include "blas_compat.h"
-//#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl.h"
-//#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl_lapack.h"
-//#include "/opt/acml5.3.1/gfortran64/include/acml.h"
-
-#define USE_ACML 0
-
-// extern "C" void dgesvd_(char*,char*,int*,int*,double*,int*,double*,double*,int*,double*,int*,double*,int*,int*);
-// extern "C" void dgetrf_(int*,int*,double*,int*,int*,int*);
-// extern "C" void dgetri_(int*,double*,int*,int*,double*,int*,int*);
-// extern "C" void dsyevx_(char*,char*,char*,int*,double*,int*,double*,double*,int*,int*,double*,int*,double*,double*,int*,double*,int*,int*,int*,int*);
 
 using namespace std;
 
@@ -418,12 +408,6 @@ int SVD(double* A, double* V, double* eigen, int m, int n){
   MKL_INT mkl_m = (MKL_INT) m;
   MKL_INT mkl_n = (MKL_INT) n;
 
-#if USE_ACML
- //disabled this function
-  printf(" SVD not set up for ACML \n");
-  return -1;
-#endif
-
 #if 0
   for (int i=0;i<m;i++)
   for (int j=0;j<n;j++)
@@ -461,12 +445,10 @@ int SVD(double* A, double* V, double* eigen, int m, int n){
   char JOBU='A';
   char JOBVT='A';
 
-#if !USE_ACML
   dgesvd_(&JOBU, &JOBVT, &mkl_m, &mkl_n, B, &LDA, S, U, &mkl_m, Vt, &mkl_n, Work, &LenWork, &Info);
 
 //vs dgesdd (divide and conquer version)
 //  dgesdd_((char*)"A", &m, &n, A, &LDA, S, U, &m, Vt, &n, Work0, &LenWork, IWork, &Info);
-#endif
 
   if (Info!=0)
     printf(" after SVD, Info error is: %i \n",Info);
@@ -610,17 +592,11 @@ int Diagonalize(double* A, double* eigen, int size){
 
     MKL_INT Info = 0;
 
-#if USE_ACML
-   dsyevx(JobZ, Range, UpLo, N, A, LDA, VL,
-          VU, IL, IU, AbsTol, &NEValFound, EVal, EVec, LDA,
-          IFail, &Info);
-#else
 #if DSYEVX
     dsyevx_(&JobZ, &Range, &UpLo, &N, A, &LDA, &VL, &VU, &IL, &IU, &AbsTol,
            &NEValFound, EVal, EVec, &LDA, Work, &LenWork, IWork, IFail, &Info);
 #else
     dsyevd_(&JobZ, &UpLo, &N, A, &LDA, EVal, Work, &LenWork, IWork, &LenIWork, &Info);
-#endif
 #endif
 
 #if 0
@@ -686,14 +662,8 @@ int Diagonalize(double* A, double* eigenvecs, double* eigen, int size){
 
     MKL_INT Info = 0;
 
-#if USE_ACML
-   dsyevx(JobZ, Range, UpLo, N, A, LDA, VL,
-          VU, IL, IU, AbsTol, &NEValFound, EVal, EVec, LDA,
-          IFail, &Info);
-#else
     dsyevx_(&JobZ, &Range, &UpLo, &N, A, &LDA, &VL, &VU, &IL, &IU, &AbsTol,
            &NEValFound, EVal, EVec, &LDA, Work, &LenWork, IWork, IFail, &Info);
-#endif
 
 #if 0
     if (Info != 0 && KillJob) {
