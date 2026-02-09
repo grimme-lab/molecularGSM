@@ -1,8 +1,6 @@
 #include "icoord.h"
 #include "utils.h"
-#include <mkl.h>
-//#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl.h"
-//#include "/opt/acml5.3.1/gfortran64/include/acml.h"
+#include "blas_compat.h"
 
 using namespace std;
 

@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    # Run monthly on the 1st at midnight UTC to test with latest pixi
+    - cron: '0 0 1 * *'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-64
+          - os: macos-latest
+            platform: osx-arm64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract minimum pixi version from pixi.toml
+        id: pixi-version
+        run: |
+          # Extract version from requires-pixi = ">=X.Y.Z"
+          VERSION=$(grep 'requires-pixi' pixi.toml | sed 's/.*>=\([0-9.]*\).*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using minimum pixi version: $VERSION"
+
+      - name: Set up Pixi (minimum version)
+        if: github.event_name != 'schedule'
+        uses: prefix-dev/setup-pixi@v0.9.1
+        with:
+          pixi-version: v${{ steps.pixi-version.outputs.version }}
+          log-level: v
+          cache: true
+
+      - name: Set up Pixi (latest version for scheduled builds)
+        if: github.event_name == 'schedule'
+        uses: prefix-dev/setup-pixi@v0.9.1
+        with:
+          log-level: v
+          cache: true
+
+      - name: Run test
+        run: pixi run test
