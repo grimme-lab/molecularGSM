@@ -23,8 +23,7 @@ The easiest way to install GSM is with [Pixi](https://pixi.sh/), which handles a
 2. Install GSM globally:
 ```bash
 pixi global install \
-    --git https://github.com/ZimmermanGroup/molecularGSM.git \
-    --branch 47-qchem-pixi-backend
+    --git https://github.com/ZimmermanGroup/molecularGSM.git
 ```
 
 This builds GSM with MOPAC support (default) and makes `gsm` available in your PATH.
@@ -35,19 +34,18 @@ To build with a different energy calculator backend, set the appropriate environ
 
 | Backend | Command |
 |---------|---------|
-| Q-Chem | `GSM_ENABLE_QCHEM=1 pixi global install --git ... --branch ...` |
-| Q-Chem SF | `GSM_ENABLE_QCHEM_SF=1 pixi global install --git ... --branch ...` |
-| ORCA | `GSM_ENABLE_ORCA=1 pixi global install --git ... --branch ...` |
-| Gaussian | `GSM_ENABLE_GAUSSIAN=1 pixi global install --git ... --branch ...` |
-| Molpro | `GSM_ENABLE_MOLPRO=1 pixi global install --git ... --branch ...` |
-| ASE | `GSM_ENABLE_ASE=1 pixi global install --git ... --branch ...` |
-| Turbomole | `GSM_ENABLE_TURBOMOLE=1 pixi global install --git ... --branch ...` |
+| Q-Chem | `GSM_ENABLE_QCHEM=1 pixi global install --git ...` |
+| Q-Chem SF | `GSM_ENABLE_QCHEM_SF=1 pixi global install --git ...` |
+| ORCA | `GSM_ENABLE_ORCA=1 pixi global install --git ...` |
+| Gaussian | `GSM_ENABLE_GAUSSIAN=1 pixi global install --git ...` |
+| Molpro | `GSM_ENABLE_MOLPRO=1 pixi global install --git ...` |
+| ASE | `GSM_ENABLE_ASE=1 pixi global install --git ...` |
+| Turbomole | `GSM_ENABLE_TURBOMOLE=1 pixi global install --git ...` |
 
 For example, to install with Q-Chem:
 ```bash
 GSM_ENABLE_QCHEM=1 pixi global install \
-    --git https://github.com/ZimmermanGroup/molecularGSM.git \
-    --branch 47-qchem-pixi-backend
+    --git https://github.com/ZimmermanGroup/molecularGSM.git
 ```
 
 #### Development Setup
