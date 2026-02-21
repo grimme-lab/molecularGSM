@@ -70,6 +70,7 @@ packages:
   variants:
     target_platform: osx-arm64
   depends:
+  - libopenblas
   - libcxx >=21
 - conda: .
   name: gsm
@@ -79,6 +80,7 @@ packages:
   variants:
     target_platform: linux-64
   depends:
+  - mkl
   - libstdcxx *
   - libstdcxx >=15
   - libgcc >=15
